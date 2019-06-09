@@ -6,3 +6,4 @@ bin/
 packages
 */.DS_Store
 .DS_Store
+*/aws-logger-errors.txt

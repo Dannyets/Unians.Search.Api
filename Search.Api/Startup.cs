@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Amazon.Runtime;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -36,14 +37,30 @@ namespace Search.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
+            ConfigureLogger(loggerFactory);
+
             app.UseMvc();
+        }
+
+        private void ConfigureLogger(ILoggerFactory loggerFactory)
+        {
+            var loggerConfig = Configuration.GetAWSLoggingConfigSection();
+
+            var accessKey = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY");
+            var secretKey = Environment.GetEnvironmentVariable("AWS_SECRET_KEY");
+
+            var credentials = new BasicAWSCredentials(accessKey, secretKey);
+
+            loggerConfig.Config.Credentials = credentials;
+
+            loggerFactory.AddAWSProvider(loggerConfig, formatter: (logLevel, message, exception) => $"[{DateTime.UtcNow}] {logLevel}: {message}");
         }
     }
 }
