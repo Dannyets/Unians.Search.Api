@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Search.Api.Models
+﻿namespace Search.Api.Models
 {
     public class ExerciseDocument : BaseDocument
     {

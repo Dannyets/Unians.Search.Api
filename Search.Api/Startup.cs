@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Amazon.Runtime;
 using De.Amazon.Configuration.Extensions;
 using De.Amazon.Configuration.Models;
 using Microsoft.AspNetCore.Builder;
@@ -11,8 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Search.Api.Extensions;
+using Search.Api.Clients.Extensions;
 using Search.Api.Interfaces;
 using Search.Api.Models;
 using Search.Api.Services;
@@ -31,7 +26,7 @@ namespace Search.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddExerciseElasticSearch(Configuration);
+            services.AddExerciseElasticSearchClient(Configuration);
 
             services.AddTransient<IElasticSearchService<ExerciseDocument>, ExerciseSearchService>();
 

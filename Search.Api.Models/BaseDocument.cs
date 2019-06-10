@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Search.Api.Models
+﻿namespace Search.Api.Models
 {
     public abstract class BaseDocument
     {

@@ -1,11 +1,8 @@
-﻿using Amazon.Runtime.Internal.Util;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Search.Api.Interfaces;
 using Search.Api.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Search.Api.Controllers

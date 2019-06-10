@@ -14,10 +14,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.4.10" />
-    <PackageReference Include="NEST" Version="7.0.0-alpha2" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Search.Api.Clients\Search.Api.Clients.csproj" />
     <ProjectReference Include="..\Search.Api.Models\Search.Api.Models.csproj" />
   </ItemGroup>
 

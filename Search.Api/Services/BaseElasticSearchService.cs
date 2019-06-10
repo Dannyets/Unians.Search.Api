@@ -41,7 +41,7 @@ namespace Search.Api.Services
             return GetResultsFromSearchResponse(searchResult);
         }
 
-        private List<T> GetResultsFromSearchResponse(SearchResponse<T> searchResponse)
+        private List<T> GetResultsFromSearchResponse(ISearchResponse<T> searchResponse)
         {
             return searchResponse.Hits.Select(hit => hit.Source).ToList();
         }

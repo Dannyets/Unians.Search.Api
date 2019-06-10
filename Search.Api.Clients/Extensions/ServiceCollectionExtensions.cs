@@ -1,16 +1,15 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
-using Search.Api.Clients;
 using Search.Api.Interfaces;
 using Search.Api.Models;
 using System;
 
-namespace Search.Api.Extensions
+namespace Search.Api.Clients.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static void AddExerciseElasticSearch(this IServiceCollection services, IConfiguration configuration)
+        public static void AddExerciseElasticSearchClient(this IServiceCollection services, IConfiguration configuration)
         {
             var elasticSearchUrl = configuration["ES:Exercise:Url"];
 
