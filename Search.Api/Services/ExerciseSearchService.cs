@@ -8,36 +8,19 @@ using System.Threading.Tasks;
 
 namespace Search.Api.Services
 {
-    public class ExerciseSearchService : ISearchService<ExerciseDocument>
+    public class ExerciseSearchService : BaseElasticSearchService<ExerciseDocument>
     {
-        private IGenericElasticClient<ExerciseDocument> _elasticClient;
-
-        public ExerciseSearchService(IGenericElasticClient<ExerciseDocument> elasticClient)
+        public ExerciseSearchService(IGenericElasticClient<ExerciseDocument> elasticClient) : base(elasticClient)
         {
-            _elasticClient = elasticClient;
         }
 
-        public async Task<List<ExerciseDocument>> Search(string keyword)
+        public override async Task<List<ExerciseDocument>> Search(string keyword)
         {
             var searchKeyword = $"*{keyword.ToLower()}*";
 
-            var searchResult = await _elasticClient.SearchAsync<ExerciseDocument>(s => s.
-                Query(q => q
-                    .QueryString(queryDescriptor => queryDescriptor
-                        .Query(searchKeyword)
-                        .Fields(fieldsDescriptor => fieldsDescriptor
-                           .Fields(f => f.Title,
-                                   f => f.Description)))
-                ));
+            var searchResult = await SearchFields(keyword, f => f.Title, f => f.Description);
 
-            return searchResult.Hits.Select(hit => hit.Source).ToList();
-        }
-
-        public async Task<List<ExerciseDocument>> GetAll()
-        {
-            var searchResult = await _elasticClient.SearchAsync<ExerciseDocument>(s => s.Query(q => q.MatchAll()));
-
-            return searchResult.Hits.Select(hit => hit.Source).ToList();
+            return searchResult;
         }
     }
 }

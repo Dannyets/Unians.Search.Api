@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="AWS.Logger.AspNetCore" Version="1.4.1" />
     <PackageReference Include="AWSSDK.Core" Version="3.3.102.3" />
+    <PackageReference Include="De.Amazon.Configuration" Version="1.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />

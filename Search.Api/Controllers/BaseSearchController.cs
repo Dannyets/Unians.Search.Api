@@ -14,10 +14,10 @@ namespace Search.Api.Controllers
     [ApiController]
     public class BaseSearchController<T> : ControllerBase where T : BaseDocument
     {
-        private ISearchService<T> _searchService;
-        private ILogger<BaseSearchController<T>> _logger;
+        protected IElasticSearchService<T> _searchService;
+        protected ILogger<BaseSearchController<T>> _logger;
 
-        public BaseSearchController(ISearchService<T> searchService,
+        public BaseSearchController(IElasticSearchService<T> searchService,
                                     ILogger<BaseSearchController<T>> logger)
         {
             _searchService = searchService;
@@ -25,7 +25,7 @@ namespace Search.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<T>>> Search(string keyword)
+        public virtual async Task<ActionResult<IEnumerable<T>>> Search(string keyword)
         {
             _logger.LogInformation($"Trying to search keyword: {keyword}");
 

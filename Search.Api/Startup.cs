@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Amazon.Runtime;
+using De.Amazon.Configuration.Extensions;
+using De.Amazon.Configuration.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -31,34 +33,31 @@ namespace Search.Api
         {
             services.AddExerciseElasticSearch(Configuration);
 
-            services.AddTransient<ISearchService<ExerciseDocument>, ExerciseSearchService>();
+            services.AddTransient<IElasticSearchService<ExerciseDocument>, ExerciseSearchService>();
+
+            services.AddAwsConfiguration();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, AmazonConfiguration amazonConfiguration)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            ConfigureLogger(loggerFactory);
+            ConfigureLogger(loggerFactory, amazonConfiguration);
 
             app.UseMvc();
         }
 
-        private void ConfigureLogger(ILoggerFactory loggerFactory)
+        private void ConfigureLogger(ILoggerFactory loggerFactory, AmazonConfiguration amazonConfiguration)
         {
             var loggerConfig = Configuration.GetAWSLoggingConfigSection();
 
-            var accessKey = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY");
-            var secretKey = Environment.GetEnvironmentVariable("AWS_SECRET_KEY");
-
-            var credentials = new BasicAWSCredentials(accessKey, secretKey);
-
-            loggerConfig.Config.Credentials = credentials;
+            loggerConfig.Config.Credentials = amazonConfiguration.Credentials;
 
             loggerFactory.AddAWSProvider(loggerConfig, formatter: (logLevel, message, exception) => $"[{DateTime.UtcNow}] {logLevel}: {message}");
         }
